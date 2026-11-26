@@ -1,5 +1,5 @@
 // The same invoice from a Razor component: .NET renders the HTML, the API only turns it into a PDF.
-// Without `data` the API doesn't run its template language, so the HTML goes through as it is.
+// templating: false sends the HTML through as it is, so {{ }} in your data is printed, not filled in.
 //
 //   export DYNAMIC_DOCUMENT_API_KEY="dda_test_..."
 //   dotnet run --project src/RenderRazorInvoice
@@ -24,6 +24,7 @@ http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer
 using var response = await http.PostAsJsonAsync("pdf/from-html", new
 {
     html,
+    templating = false,
     pdf = new
     {
         paper = new { size = "Letter" },
