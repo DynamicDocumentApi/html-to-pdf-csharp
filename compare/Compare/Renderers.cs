@@ -1,7 +1,6 @@
 using DinkToPdf;
 using iText.Html2pdf;
 using PdfSharp.Drawing;
-using PdfSharp.Fonts;
 using PuppeteerSharp;
 using PuppeteerSharp.Media;
 using TheArtOfDev.HtmlRenderer.PdfSharp;
@@ -71,13 +70,11 @@ static class Renderers
         return Task.CompletedTask;
     }
 
-    // HtmlRenderer.PdfSharp: renders the HTML with its own layout engine onto PDFsharp pages. It has no
-    // header or footer, so the page numbers are drawn with PDFsharp afterwards.
+    // HtmlRenderer.PdfSharp: renders the HTML with its own layout engine onto PDFsharp pages and finds the
+    // installed fonts itself. It has no header or footer, so the page numbers are drawn with PDFsharp afterwards.
 
     public static Task HtmlRendererAsync(string html, string target)
     {
-        GlobalFontSettings.FontResolver ??= new SansFontResolver();
-
         var config = new PdfGenerateConfig { PageSize = PdfSharp.PageSize.Letter };
         config.MarginTop = config.MarginRight = config.MarginLeft = Points(16);
         config.MarginBottom = Points(20);
@@ -138,26 +135,4 @@ static class Renderers
             return $"not loaded: {error.Message}";
         }
     }
-}
-
-/// <summary>
-/// PDFsharp finds installed fonts by itself only on Windows. Everywhere else it needs a font resolver:
-/// this one maps every font the HTML asks for to Liberation Sans (Linux) or Arial (macOS).
-/// </summary>
-sealed class SansFontResolver : IFontResolver
-{
-    static readonly Dictionary<string, string[]> Files = new()
-    {
-        ["Regular"] = ["/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf", "/System/Library/Fonts/Supplemental/Arial.ttf"],
-        ["Bold"] = ["/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf", "/System/Library/Fonts/Supplemental/Arial Bold.ttf"],
-        ["Italic"] = ["/usr/share/fonts/truetype/liberation/LiberationSans-Italic.ttf", "/System/Library/Fonts/Supplemental/Arial Italic.ttf"],
-        ["BoldItalic"] = ["/usr/share/fonts/truetype/liberation/LiberationSans-BoldItalic.ttf", "/System/Library/Fonts/Supplemental/Arial Bold Italic.ttf"],
-    };
-
-    public FontResolverInfo ResolveTypeface(string familyName, bool bold, bool italic) =>
-        new((bold, italic) switch { (true, true) => "BoldItalic", (true, false) => "Bold", (false, true) => "Italic", _ => "Regular" });
-
-    public byte[] GetFont(string faceName) =>
-        File.ReadAllBytes(Files[faceName].FirstOrDefault(File.Exists)
-            ?? throw new FileNotFoundException($"No font file for {faceName}; install fonts-liberation."));
 }
