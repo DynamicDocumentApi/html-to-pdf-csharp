@@ -14,7 +14,8 @@ var apiKey = Environment.GetEnvironmentVariable("DYNAMIC_DOCUMENT_API_KEY")
 using var http = new HttpClient
 {
     BaseAddress = new Uri("https://api-eu.dynamicdocumentapi.com/v1/"),
-    // A little above the longest sync wait, so a slow render answers 202 instead of timing out.
+    // A little longer than the API ever waits for a render (up to 120 s). A very slow render then
+    // comes back as 202, still running, instead of failing here with a timeout.
     Timeout = TimeSpan.FromSeconds(130),
 };
 http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
