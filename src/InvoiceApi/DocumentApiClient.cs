@@ -33,6 +33,14 @@ public sealed class DocumentApiClient(HttpClient http)
 
         // ResponseHeadersRead: return as soon as the headers are in, the body streams afterwards.
         var response = await http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+        if (response.StatusCode == HttpStatusCode.Accepted)
+        {
+            // The render took longer than your plan's sync timeout and goes on in the background. An invoice
+            // doesn't get there; for long documents render with "mode": "async" and a webhook instead.
+            var location = response.Headers.Location;
+            response.Dispose();
+            throw new TimeoutException($"The render is still running: {location}");
+        }
         if (response.StatusCode != HttpStatusCode.OK)
         {
             using (response)

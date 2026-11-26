@@ -1,0 +1,77 @@
+{
+  "dotnet": ".NET 10.0.15",
+  "os": "Ubuntu 24.04.5 LTS",
+  "libraries": {
+    "puppeteersharp": {
+      "package": "PuppeteerSharp",
+      "version": "25.18.1",
+      "seconds": 2.66,
+      "pages": 2,
+      "has_page_numbers": true,
+      "fonts": [
+        "",
+        "DejaVuSans"
+      ],
+      "images": [
+        "puppeteersharp-page-1.webp",
+        "puppeteersharp-page-2.webp"
+      ],
+      "runs_javascript": true
+    },
+    "itext": {
+      "package": "itext.pdfhtml",
+      "version": "6.3.4",
+      "seconds": 1.88,
+      "pages": 2,
+      "has_page_numbers": true,
+      "fonts": [
+        "Helvetica",
+        "Inter-Bold",
+        "Inter-Regular",
+        "Inter-SemiBold"
+      ],
+      "images": [
+        "itext-page-1.webp",
+        "itext-page-2.webp"
+      ],
+      "runs_javascript": false
+    },
+    "htmlrenderer": {
+      "package": "HtmlRenderer.PdfSharp",
+      "version": "1.6.1",
+      "seconds": 0.24,
+      "pages": 2,
+      "has_page_numbers": true,
+      "fonts": [
+        "Tuffy Regular",
+        "Tuffy,Bold"
+      ],
+      "images": [
+        "htmlrenderer-page-1.webp",
+        "htmlrenderer-page-2.webp"
+      ],
+      "runs_javascript": false
+    },
+    "dinktopdf": {
+      "package": "DinkToPdf",
+      "version": "1.0.8",
+      "seconds": 0.38,
+      "pages": 2,
+      "has_page_numbers": true,
+      "fonts": [
+        "Inter-Bold",
+        "Inter-Regular",
+        "Inter-SemiBold",
+        "LiberationSans"
+      ],
+      "images": [
+        "dinktopdf-page-1.webp",
+        "dinktopdf-page-2.webp"
+      ],
+      "runs_javascript": true
+    }
+  },
+  "chrome": "157.0.8103.78",
+  "chrome_download_mb": 716,
+  "wkhtmltopdf": "0.12.6.1"
+}

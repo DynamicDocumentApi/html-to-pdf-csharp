@@ -5,7 +5,7 @@ name: Compare C# HTML-to-PDF libraries
 on:
   workflow_dispatch:
   push:
-    paths: ["invoice/**", "src/Invoices/**", "compare/**", "Directory.Build.props", ".github/workflows/compare.yml"]
+    paths: ["invoice/**", "src/Invoices/**", "compare/**", "!compare/results/**", "Directory.Build.props", ".github/workflows/compare.yml"]
 
 permissions:
   contents: read

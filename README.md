@@ -44,8 +44,21 @@ dotnet run --project src/InvoiceApi            # ASP.NET Core: http://localhost:
 ## Library comparison
 
 [`compare/Compare`](compare/Compare/Renderers.cs) renders the invoice with four .NET libraries, each with page numbers
-added the way its documentation describes, and checks whether each one runs JavaScript. It runs in GitHub Actions on
-Ubuntu 24.04 with .NET 10 ([workflow](.github/workflows/compare.yml)); no API key needed.
+added the way its documentation describes, and checks whether each one runs JavaScript. Every library gets the same
+finished HTML from the Razor component. It runs in GitHub Actions on Ubuntu 24.04 with .NET 10
+([workflow](.github/workflows/compare.yml)); no API key needed. Results from the last run, with versions, are in
+[`compare/results`](compare/results):
+
+| Page 1 | |
+|---|---|
+| ![PuppeteerSharp](compare/results/puppeteersharp-page-1.webp) PuppeteerSharp 25.18 (Chrome 157): as designed | ![iText pdfHTML](compare/results/itext-page-1.webp) iText pdfHTML 6.3.4: Flexbox and web font work, the invoice details (CSS grid) are stacked |
+| ![HtmlRenderer.PdfSharp](compare/results/htmlrenderer-page-1.webp) HtmlRenderer.PdfSharp 1.6.1: header, addresses and totals missing, no web font | ![DinkToPdf](compare/results/dinktopdf-page-1.webp) DinkToPdf 1.0.8 + wkhtmltopdf 0.12.6.1: Flexbox and grid ignored |
+
+To run it yourself on Ubuntu: install `fonts-liberation` and the
+[wkhtmltopdf 0.12.6.1 package](https://github.com/wkhtmltopdf/packaging/releases/tag/0.12.6.1-3), then
+`dotnet run --project compare/Compare -c Release` and `pip install -r compare/requirements.txt && python compare/analyze.py`.
+PuppeteerSharp downloads Chrome (about 720 MB) on the first run. On Ubuntu 23.10 and later Chrome only starts once its
+sandbox is allowed, see the workflow.
 
 ## Learn more
 
