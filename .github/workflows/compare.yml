@@ -1,0 +1,45 @@
+# Renders the invoice with PuppeteerSharp, iText pdfHTML, HtmlRenderer.PdfSharp and DinkToPdf on Ubuntu 24.04
+# and uploads the PDFs, page images and results.json as an artifact. No API key needed.
+name: Compare C# HTML-to-PDF libraries
+
+on:
+  workflow_dispatch:
+  push:
+    paths: ["invoice/**", "src/Invoices/**", "compare/**", "Directory.Build.props", ".github/workflows/compare.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  compare:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Fonts and wkhtmltopdf 0.12.6.1 (patched Qt) for DinkToPdf
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends fonts-liberation
+          wget -q https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.jammy_amd64.deb
+          sudo apt-get install -y --no-install-recommends ./wkhtmltox_0.12.6.1-3.jammy_amd64.deb
+
+      - name: Render with every library
+        run: dotnet run --project compare/Compare -c Release
+
+      - name: Count pages, check page numbers and JavaScript, draw page images
+        run: |
+          pip install -r compare/requirements.txt
+          python compare/analyze.py
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: comparison
+          path: compare/out

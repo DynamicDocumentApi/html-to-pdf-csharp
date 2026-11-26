@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <!-- The invoice data (Invoice.cs), the Razor version of the template (InvoiceDocument.razor) and the
+       helper that renders it to an HTML string (InvoiceHtml.cs). Shared by the apps and the comparison. -->
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- invoice.html (the Jinja template the API fills) and invoice.json (the sample data) -->
+    <None Include="..\..\invoice\*" LinkBase="invoice" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

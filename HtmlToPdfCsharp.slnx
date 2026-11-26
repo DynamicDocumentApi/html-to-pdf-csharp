@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/InvoiceApi/InvoiceApi.csproj" />
+    <Project Path="src/Invoices/Invoices.csproj" />
+    <Project Path="src/RenderInvoice/RenderInvoice.csproj" />
+    <Project Path="src/RenderRazorInvoice/RenderRazorInvoice.csproj" />
+  </Folder>
+  <Folder Name="/compare/">
+    <Project Path="compare/Compare/Compare.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="PuppeteerSharp" Version="25.18.1" />
+    <PackageReference Include="itext.pdfhtml" Version="6.3.4" />
+    <PackageReference Include="HtmlRenderer.PdfSharp" Version="1.6.1" />
+    <PackageReference Include="DinkToPdf" Version="1.0.8" />
+    <!-- PDFsharp and iText pull in 8.0.1, which has known vulnerabilities (GHSA-846f-f764-76mx). -->
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.15" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Invoices\Invoices.csproj" />
+  </ItemGroup>
+
+</Project>

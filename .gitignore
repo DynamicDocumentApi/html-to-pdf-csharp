@@ -1,0 +1,12 @@
+bin/
+obj/
+*.user
+.vs/
+.idea/
+
+# Output of the samples and the comparison (the committed results live in compare/results and docs)
+*.pdf
+!docs/*.pdf
+!compare/results/*.pdf
+out/
+compare/.chrome/
